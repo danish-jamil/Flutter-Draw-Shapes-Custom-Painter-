@@ -189,6 +189,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 setState(() {
                   _startPoint = details.localPosition;
                   print('On Tap down: $_startPoint');
+                  RectanglePoints rect =
+                      findTouchedRectangle(rectangles, details.localPosition);
+                  rect.selected = true;
                 });
               },
               onPanEnd: (DragEndDetails details) {
@@ -199,7 +202,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         startPoint: _startPoint,
                         endPoint: _endPoint,
                         color: selectedColor,
-                        strokeWidth: strokeWidth));
+                        strokeWidth: strokeWidth,
+                        selected: false));
                   print("On End: ");
                   print(_startPoint);
                   print(_endPoint);
@@ -297,6 +301,32 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  RectanglePoints findTouchedRectangle(
+      List<RectanglePoints> rectangles, Offset touched) {
+    for (var rect in rectangles) {
+      if (rect.startPoint.dx >= touched.dx &&
+          touched.dx <= rect.endPoint.dy - rect.startPoint.dy) {
+        return rect;
+      }
+    }
+    return null;
+  }
+
+  createDraggableShapeObject(points, startPoint, endPoint, selectedColor,
+      strokeWidth, rectangles, rects) {
+    return Draggable(
+      child: CustomPaint(
+          painter: ShapesPainter(
+              points: points,
+              startPoint: startPoint,
+              endPoint: endPoint,
+              selectedColor: selectedColor,
+              strokeWidth: strokeWidth,
+              rectangles: rectangles,
+              rects: rects)),
+    );
+  }
 }
 
 class ShapesPainter extends CustomPainter {
@@ -331,6 +361,9 @@ class ShapesPainter extends CustomPainter {
     for (var rectPoints in rectangles) {
       paint.color = rectPoints.color;
       paint.strokeWidth = rectPoints.strokeWidth;
+      if (rectPoints.selected != null && rectPoints.selected == true) {
+        paint.color = Colors.black45;
+      }
       var rect = Rect.fromLTWH(
           rectPoints.startPoint.dx,
           rectPoints.startPoint.dy,
@@ -383,8 +416,13 @@ class RectanglePoints {
   Offset endPoint;
   Color color;
   double strokeWidth;
+  bool selected;
   RectanglePoints(
-      {this.startPoint, this.endPoint, this.color, this.strokeWidth});
+      {this.startPoint,
+      this.endPoint,
+      this.color,
+      this.strokeWidth,
+      this.selected});
 }
 
 class DrawingPoints {

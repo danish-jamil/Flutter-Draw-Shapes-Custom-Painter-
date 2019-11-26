@@ -1,5 +1,4 @@
-import 'package:custom_shapes/home_page.dart';
-import 'package:custom_shapes/screens/home_screen.dart';
+import 'package:custom_shapes/screens/multiple_canvas.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
         accentColor: Color(0xFFD8ECF1),
         scaffoldBackgroundColor: Color(0xFFF3F5F7),
       ),
-      home: MyHomePage(),
+      home: MultipleCanvas(),
     );
   }
 }
