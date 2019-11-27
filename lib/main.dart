@@ -1,3 +1,4 @@
+import 'package:custom_shapes/screens/custom_painter_draggable.dart';
 import 'package:custom_shapes/screens/multiple_canvas.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         accentColor: Color(0xFFD8ECF1),
         scaffoldBackgroundColor: Color(0xFFF3F5F7),
       ),
-      home: MultipleCanvas(),
+      home: CustomPainterDraggable(),
     );
   }
 }
